@@ -1,0 +1,58 @@
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include <string>
+
+using namespace std;
+
+struct tEmpleado
+{int nroemp;
+ string nombre;
+ string apellido;
+ string direccion;
+ int telef;
+ int cel;
+ float salariobruto;
+};
+
+int const MAX = 100 ;
+
+
+void main()
+{int cont=1,nroemp;
+ tEmpleado Empleado[MAX];
+
+ do{
+ cout<<"\n Ingrese un limite";
+ cin>>nroemp;
+ }while(nroemp<0 || nroemp>MAX);
+
+ cin.ignore();
+
+ for(int i=0;i<nroemp;i++)
+    {
+		cout<<"\n Ingrese los nombre de los empleados ";
+		getline(cin,Empleado[i].nombre);
+		cout<<"\n Ingrese los apellidos de los empleados ";
+		getline(cin,Empleado[i].apellido);
+		cout<<"\n Ingrese las direcciones de los empleados ";
+		getline(cin,Empleado[i].direccion);
+		cout<<"\n Ingrese los telefonos de los empleados ";
+		cin>>Empleado[i].telef;
+		cout<<"\n Ingrese los celulares de los empleados ";
+		cin>>Empleado[i].cel;
+		cout<<"\n Ingrese los salarios brutos de los empleados ";
+		cin>>Empleado[i].salariobruto;
+		cin.ignore();
+    }
+
+
+ cout<<"\nNro -- nombres -- apellidos -- direccion -- telef -- cel -- salario bruto"<<endl;
+ for(int i=0;i<nroemp;i++)
+    {
+		cout<<i+1<<"       "<<Empleado[i].nombre<<"        "<<Empleado[i].apellido<<"     "<<Empleado[i].direccion<<"     "<<Empleado[i].telef<<"     "<<Empleado[i].cel<<"     "<<Empleado[i].salariobruto<<"\n";
+    }
+
+
+	getch();
+}
