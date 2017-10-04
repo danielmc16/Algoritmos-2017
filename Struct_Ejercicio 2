@@ -16,16 +16,20 @@ struct tintereses
 
 tintereses V[MAX];
 
-int insertar();
+void insertar(int N);
 void listar(int N);
 void consultar(int N);
 void modificar(int N);
-void borrar();
+void borrar(int N);
 void clasificar();
 
 void main()
 {int N, opc;
+ string A;
+ cout<<" Ingrese el numero de datos que desee insertar: ";
+ cin>>N;
 do{ 
+ do{ 
   cout<<"\n MENU ";
   cout<<"\n [1]---> Insertar";
   cout<<"\n [2]---> Listar";
@@ -37,15 +41,15 @@ do{
   cout<<"\n Ingrese la opcion: ";
   cin>>opc;
   switch(opc)
-  {	case 1:N=insertar();
+  {	case 1:insertar(N);
          break;
-	case 2:listar(N);
+    case 2:listar(N);
 	     break;
 	case 3:consultar(N);
 	     break;
 	case 4:modificar(N);
 	     break;
-	case 5:borrar();
+	case 5:borrar(N);
 	     break;
 	case 6:clasificar();
 	     break;
@@ -54,28 +58,29 @@ do{
 	default:cout<<"error";
 	     break;
   }
-  getch();
-  system("cls");
- }while(opc!=0);
+   getch();
+   system("cls");
+ }while(opc<0 || opc>6);
+ cout<<"Desea Seguir usando el Menu?.. si o no"<<endl;
+ cin>>A;
+}while(A=="si");
+
 getch();
 }
 
-int insertar()
-{	int N;
-	cout<<" Ingrese el numero de datos que desee insertar: ";
-	cin>>N;
+void insertar(int N)
+{
 	for(int i=0;i<N;i++)
 	{	cout<<"Ingrese el ID: "<<endl;
 		cin>>V[i].numero;
-		cout<<"Ingrese el interes: "<<endl;
 		cin.ignore();
+		cout<<"Ingrese el interes: "<<endl;
 		getline(cin,V[i].interes);
 		cout<<"Ingrese la descripcion: "<<endl;
 		getline(cin,V[i].descripcion);
 		V[i].estado=0;
 		getch();
 	}
-	return N;
 }
 
 void listar(int N)
@@ -86,6 +91,7 @@ void listar(int N)
 	cout<<"Descripcion"<<"\t"<<endl;
 	for(int i=0;i<N;i++)
 	{	if (V[i].estado !=9)
+
 		{   cout<<V[i].numero<<"\t";
 			cout<<V[i].interes<<"\t";
 			cout<<V[i].descripcion<<endl;
@@ -143,7 +149,7 @@ void modificar(int N)
 		cout << "Elemento Ingresado No Encontrado en la base de Datos. " << endl;
 }
 
-void borrar()
+void borrar(int N)
 {
 	// Borrar logico
 	int idElemento;
