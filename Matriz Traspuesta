@@ -1,0 +1,82 @@
+// matriz transpuesta.cpp : Defines the entry point for the console application.
+	//
+	
+
+	
+
+	#include "stdafx.h"
+	#include <iostream>
+	#include "conio.h"
+	
+
+	#define MAXCOL 15
+	#define MAXROW 15
+	
+
+	
+
+	using namespace std;
+	
+
+	void cargarmatriz(int matrix[MAXROW][MAXCOL],int n,int m);
+	void mostrarmatriz(int matrix[MAXROW][MAXCOL],int n,int m);
+	void transpuesta_de_matriz(int matrix[MAXROW][MAXCOL],int n,int m);
+	
+
+	void main()
+	{
+		 int n,m, matrix[MAXROW][MAXCOL];
+	 
+	  do 
+	  {
+		  cout<<"Ingrese el numero de filas: ";
+		  cin>>n;
+	  } while ((n>MAXROW)|| (n<=0));
+		 
+	 
+	  do 
+	  {
+		  cout<<"Ingrese el numero de columnas: ";
+		  cin>>m;
+	  } while ((m>MAXCOL)|| (m<=0));
+	    cargarmatriz( matrix, n, m);
+	    mostrarmatriz( matrix, n, m);
+	    transpuesta_de_matriz( matrix, n, m);
+	
+
+	getch();
+	}
+	void cargarmatriz(int matrix[MAXROW][MAXCOL],int n,int m)
+	{int i, j;
+	 
+	  for(i=0;i<n;i++)
+	   for(j=0;j<m;j++)
+	     {cout<<"MAT ["<<i<<"] ["<<j<<"]: ";
+	      cin>>matrix[i][j];
+	     }
+	}
+	void mostrarmatriz(int matrix[MAXROW][MAXCOL],int n,int m)
+		{int i, j;
+	  
+	  for(i=0;i<n;i++)
+		
+	   {for(j=0;j<m;j++)
+	       cout<<"\n\t\MAT ["<<i<<"] ["<<j<<"]: "<<matrix[i][j]<<"\t";   
+		cout<<endl;
+	   }
+	}
+	void transpuesta_de_matriz(int matrix[MAXROW][MAXCOL],int n,int m)
+	{int i,j;
+		 cout<<"\n\n\t\tMatriz transpuesta";
+	     cout<<"\n\n";
+	     for(i = 0;i <m;i++)
+		 {
+	      cout<<"\n\t\t";
+	      for(j = 0;j <n;j++)
+		      {
+	         cout<<"MAT ["<<j<<"] ["<<i<<"]: "<<matrix[j][i]<<"\t";  
+	          }
+	    }
+	  
+	}
+
