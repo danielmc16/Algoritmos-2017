@@ -1,0 +1,206 @@
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include <string>
+#include "stdlib.h"
+#define MAX 6
+
+using namespace std;
+
+struct tintereses
+{int numero;
+ string material1;
+ string material2;
+ int estado;
+};
+
+tintereses V[MAX];
+
+void insertar(int N);
+void listar(int N);
+void consultar(int N);
+void modificar(int N);
+void borrar(int N);
+void clasificar(int N);
+
+void main()
+{int N, opc;
+ string A;
+ cout<<" Ingrese el numero de datos que desee insertar: ";
+ cin>>N;
+do{ 
+ do{ 
+  cout<<"\n MENU ";
+  cout<<"\n [1]---> Insertar";
+  cout<<"\n [2]---> Listar";
+  cout<<"\n [3]---> Consultar";
+  cout<<"\n [4]---> Modificar";
+  cout<<"\n [5]---> Borrar";
+  cout<<"\n [6]---> Clasificar los datos";
+  cout<<"\n [0]---> Salir";
+  cout<<"\n Ingrese la opcion: ";
+  cin>>opc;
+  switch(opc)
+  {	case 1:insertar(N);
+         break;
+    case 2:listar(N);
+	     break;
+	case 3:consultar(N);
+	     break;
+	case 4:modificar(N);
+	     break;
+	case 5:borrar(N);
+	     break;
+	case 6:clasificar(N);
+	     break;
+	case 0:cout<<"salir";
+	     break;
+	default:cout<<"error";
+	     break;
+  }
+   getch();
+   system("cls");
+ }while(opc<0 || opc>6);
+
+ cout<<"Desea Seguir usando el Menu?.. si o no"<<endl;
+ cin>>A;
+ 
+}while(A=="si");
+
+getch();
+}
+
+void insertar(int N)
+{
+	for(int i=0;i<N;i++)
+	{	cout<<"Ingrese la ID del material: "<<endl;
+		cin>>V[i].numero;
+		cin.ignore();
+		cout<<"Ingrese el material-1: "<<endl;
+		getline(cin,V[i].material1);
+		cout<<"Ingrese la material-2: "<<endl;
+		getline(cin,V[i].material2);
+		V[i].estado=0;
+		getch();
+	}
+}
+
+void listar(int N)
+{
+	cout<<" Listado"<<endl;
+	cout<<"ID"<<"\t ";
+	cout<<"material 1"<<"\t";
+	cout<<"material 2"<<"\t"<<endl;
+	for(int i=0;i<N;i++)
+	{	if (V[i].estado !=9)
+
+		{   cout<<V[i].numero<<"\t";
+			cout<<V[i].material1<<"\t";
+			cout<<V[i].material2<<endl;
+	    }
+	}
+}
+
+void consultar(int N)
+{
+	int idElemento;
+	bool band = true;
+	cout << "Ingrese el elemento a consultar: ";
+	cin >> idElemento;
+	for(int i=0;i<N;i++){
+		if(V[i].numero == idElemento){
+			cout << "material 1: " << V[i].material1;
+			cout << "\tmaterial 2: " << V[i].material2;
+			band = false;
+		}
+	}
+	if (band != false)
+		cout << "Elemento Ingresado No Encontrado en la base de Datos. " << endl;
+}
+
+void modificar(int N)
+{int idElemento;
+    bool band = true;
+	char resp;
+	cout << "Ingrese el elemento a modificar: ";
+	cin >> idElemento;
+	for(int i=0;i<N;i++){
+		if((V[i].numero == idElemento) && (V[i].estado!=9)){
+			band = false;
+			cout << "material 1: " << V[i].material1<<endl;
+			cout << "Desea modificar el dato: (coloque s): ";
+			cin>>resp;
+			cin.ignore();
+			if (resp=='s')
+			{	
+			    cout << "Ingrese el nuevo dato:";
+				getline(cin,V[i].material1);
+			}
+			cout << "material 2: " << V[i].material2<<endl;
+			cout << "Desea modificar el dato: (coloque s): ";
+			cin>>resp;
+			cin.ignore();
+			if (resp=='s')
+			{	
+			    cout << "Ingrese el nuevo dato: ";
+				getline(cin,V[i].material2);
+			}
+		}
+	}
+	if (band != false)
+		cout << "Elemento Ingresado No Encontrado en la base de Datos. " << endl;
+}
+
+void borrar(int N)
+{
+	// Borrar logico
+	int idElemento;
+	bool band = true;
+	cout << "Ingrese el elemento a borrar: ";
+	cin >> idElemento;
+	for(int i=0;i<N;i++){
+		if(V[i].numero == idElemento){
+			V[i].estado=9;
+			band = false;
+		}
+	}
+	if (band != false)
+		cout << "Elemento Ingresado No Encontrado en la base de Datos. " << endl;
+
+}
+
+void clasificar(int N)
+{int aux1;
+ string aux2=" ",aux3=" ";
+	for(int i=0;i<N-1;i++)
+	   {for(int j=i+1;j<N;j++)
+	       {
+		    if(V[i].numero>V[j].numero)
+	          {aux1=V[i].numero;
+	           V[i].numero=V[j].numero;
+               V[j].numero=aux1;
+
+			   aux2=V[i].material1;
+	           V[i].material1=V[j].material1;
+               V[j].material1=aux2;
+
+			   aux3=V[i].material2;
+	           V[i].material2=V[j].material2;
+               V[j].material2=aux3;
+	          }
+	       } 
+	   } 
+	cout<<" Listado"<<endl;
+	cout<<"ID"<<"\t ";
+	cout<<"material 1"<<"\t";
+	cout<<"material 2"<<"\t"<<endl;
+	for(int i=0;i<N;i++)
+	{	if (V[i].estado !=9)
+
+		{   cout<<V[i].numero<<"\t";
+			cout<<V[i].material1<<"\t";
+			cout<<V[i].material2<<endl;
+	    }
+	}
+
+}
