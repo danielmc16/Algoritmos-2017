@@ -1,0 +1,371 @@
+#include "stdafx.h"
+#include "stdio.h"
+#include <iostream>
+#include <string>
+#include "conio.h"
+#include "stdlib.h"
+
+#define max 100
+
+using namespace std;
+
+FILE *fd;
+
+struct t_persona{ 
+	int CI;
+	string Fechadenac;
+	string Genero;
+	string direccion;
+}persona;
+
+struct t_cliente{ 
+	int ID_PK;
+	int NIT;
+	string Nombre;
+	string Domicilio;
+}cliente;
+
+struct t_factura{ 
+	int ID_PK;
+	int Nro_PK;
+	string Fecha;
+}factura;
+
+struct t_detalle_factura{ 
+	int ID_PK;
+	int N_item;
+	int codigo;
+	int cantidad;
+	int Nro_Factura;
+}detfactura;
+
+struct t_producto{ 
+	int ID_PK;
+	int codigo;
+	string Descripcion;
+	int costo;
+	int precio;
+}producto;
+
+//struct proyecto
+
+struct ing_materiales{
+	string material;
+	string descripcion;
+	string utilidad;
+	string direcciones[max];
+}tipo_de_material;
+
+int ingresar_mat(string &r);
+bool validarentero(string cad);
+void adicionarRegistrocliente(t_cliente usuario);
+//void buscarRegistroUsuario(cliente,nreg);
+int menu_struct();
+
+int main()
+{
+	int n;
+	string r;
+
+	int op,op2,nreg;
+
+	system("cls");
+
+	do{
+		cout << endl << "********** MENU PRINCIPAL **********";
+		cout << endl << "1.- Usuario";
+		cout << endl << "2.- Cliente";
+		cout << endl << "3.- Producto";
+		cout << endl << "4.- Venta";
+	    cout << endl << "0.- Salir";
+		cout << endl << endl;
+		do{  
+			cout << "Seleccione Opcion : ";
+			cin>>op;
+		}while(op<0 || op>5);
+
+		system("cls");
+		switch(op)
+		{
+
+	    case 0 : getch(); 
+			     break;
+		
+		case 1 : 
+			         cout << endl << "******* MENU DE USUARIOS *******";
+			         op2 = menu_struct();
+					 system("cls");
+					 switch(op2)
+					 {
+					 case 1 : //adicionarRegistropersona(persona);
+						      break;
+
+					 case 2 : 
+
+							  //listarRegistropersona(persona,nreg);
+						      break;
+
+					 case 3 : 
+						          cout << "Ingrese el nro de registro a modificar : ";
+								  cin>>nreg;
+							
+							  //modificarRegistropersona(persona,nreg);
+							  break;
+
+					 case 4 : 
+						          cout << "Ingrese el nro de registro a buscar : ";
+								  cin>>nreg;
+
+							  //consultarRegistropersona(persona,nreg);
+						      break;
+
+					 case 5 : 
+						          cout << "Ingrese el nro de registro a eliminar : ";
+								  cin>>nreg;
+
+							  //eliminarRegistropersona(persona,nreg);
+							  break;
+					 }
+
+                  break;
+		case 2 : 
+			         cout << endl << "******* MENU DE CLIENTES *******";
+					 
+					 op2 = menu_struct();
+					 system("cls");
+					 switch(op2)
+					 {
+					 case 1 : adicionarRegistrocliente(cliente);
+						      break;
+
+					 case 2 : 
+
+							  //listarRegistrocliente(cliente,nreg);
+						      break;
+
+					 case 3 : 
+						          cout << "Ingrese el nro de registro a modificar : ";
+								  cin>>nreg;
+							
+							  //modificarRegistrocliente(cliente,nreg);
+							  break;
+
+					 case 4 : 
+						          cout << "Ingrese el nro de registro a buscar : ";
+								  cin>>nreg;
+
+							  //consultarRegistrocliente(cliente,nreg);
+						      break;
+
+					 case 5 : 
+						          cout << "Ingrese el nro de registro a eliminar : ";
+								  cin>>nreg;
+
+							  //eliminarRegistrocliente(cliente,nreg);
+							  break;
+					 }
+
+			     break;
+
+		case 3 : 
+			         cout << endl << "******* MENU DE PRODUCTOS *******";
+				
+					 op2 = menu_struct();
+					 system("cls");
+					 switch(op2)
+					 {
+					 case 1 : //adicionarRegistrofactura(factura);
+						      break;
+
+					 case 2 : 
+
+							  //listarRegistrofactura(factura,nreg);
+						      break;
+
+					 case 3 : 
+						          cout << "Ingrese el nro de registro a modificar : ";
+								  cin>>nreg;
+							
+							  //modificarRegistrofactura(factura,nreg);
+							  break;
+
+					 case 4 : 
+						          cout << "Ingrese el nro de registro a buscar : ";
+								  cin>>nreg;
+
+							  //consultarRegistrofactura(factura,nreg);
+						      break;
+
+					 case 5 : 
+						          cout << "Ingrese el nro de registro a eliminar : ";
+								  cin>>nreg;
+
+							  //eliminarRegistrofactura(factura,nreg);
+							  break;
+					 }
+
+			     break;
+
+		case 4 : 
+			         cout << endl << "******* MENU DE VENTAS *******";
+				
+					 op2 = menu_struct();
+					 system("cls");
+					 switch(op2)
+					 {
+					 case 1 : //adicionarRegistroproducto(producto);
+						      break;
+
+					 case 2 : 
+
+							  //listarRegistroproducto(producto,nreg);
+						      break;
+
+					 case 3 : 
+						          cout << "Ingrese el nro de registro a modificar : ";
+								  cin>>nreg;
+							
+							  //modificarRegistroproducto(producto,nreg);
+							  break;
+
+					 case 4 : 
+						          cout << "Ingrese el nro de registro a buscar : ";
+								  cin>>nreg;
+
+							  //consultarRegistroproducto(producto,nreg);
+						      break;
+
+					 case 5 : 
+						          cout << "Ingrese el nro de registro a eliminar : ";
+								  cin>>nreg;
+
+							  //eliminarRegistroproducto(producto,nreg);
+							  break;
+					 }
+
+			     break;
+
+                     
+		}
+
+	}while(op!=0);
+
+
+	fd = fopen("materiales.txt","wb");
+	
+	if(fd == NULL)
+	{
+		cout<<"Error al tratar de crear el archivo";
+		return 1;
+	}
+
+	n = ingresar_mat(r);
+
+	
+	return 0;
+}
+
+int ingresar_mat(string &r)
+{int n;
+	
+	printf("\t.:MATERIALES:."); 
+	fprintf(fd,"\t.:MATERIALES:.");
+	
+	do{	
+		cout<<"\nNombre: ";    
+		getline(cin,tipo_de_material.material);
+		cout<<"Descripcion: "; 
+		getline(cin,tipo_de_material.descripcion);
+		cout<<"utilidad: ";    
+		getline(cin,tipo_de_material.utilidad);
+		cout<<"cuantas direcciones recomendadas desea ingresar: ";
+		cin>>n;
+		cin.ignore();
+		for(int i=0;i<n;i++)
+		{
+			cout<<"direcciones nº "<<i+1<<" : "; 
+			getline(cin,tipo_de_material.direcciones[i]);
+		}
+		
+		fprintf(fd,"\n\nNombre: "); 
+		fwrite(&tipo_de_material.material,sizeof(tipo_de_material),1,fd);
+		fprintf(fd,"\nDescripcion: ");
+		fwrite(&tipo_de_material.descripcion,sizeof(tipo_de_material),1,fd);
+		fprintf(fd,"\nutilidad: ");
+		fwrite(&tipo_de_material.utilidad,sizeof(tipo_de_material),1,fd);
+		for(int i=0;i<n;i++)
+		   {
+			fprintf(fd,"\ndirecciones: ");
+			fwrite(&tipo_de_material.direcciones[i],1,sizeof(tipo_de_material.direcciones[i]),fd);
+		   }
+		cout<<"Desea guardar mas datos (s) : ";
+
+		getline(cin,r);
+	}while(r == "s" );
+
+	fclose(fd);
+	return n;
+}
+
+
+void adicionarRegistrocliente(t_cliente cliente)
+{ 
+	
+  int no_prod;  // Variable local para el numero de producto 
+ 
+  cout << "\n\rALTAS DE REGISTROS DE PRODUCTOS"; 
+  fd=fopen("PRODUCTO.SEC","rb+"); // Intenta abrir el archivo  
+                                     // en modo de lectura/escritura 
+  if(fd==NULL) 
+    fd=fopen("PRODUCTO.SEC","wb"); // Crea el archivo en caso de no 
+                                      // existir 
+  cout << "\n\n\n\rNumero de producto: "; 
+  cin >> no_prod; 
+  fread(&cliente,sizeof(cliente),1,fd); 
+  // Lee el "Registro", de tamano=sizeof(Registro) del archivo "alias" 
+  while(!feof(fd)) // Ciclo mientras no se encuentre el final del 
+                      // archivo 
+  { 
+    if(cliente.ID_PK==no_prod) 
+    { 
+       cout << "\n\n\n\rRegistro duplicado !!!"; 
+       fclose(fd); 
+       getch(); 
+       return; 
+    } 
+    fread(&cliente,sizeof(cliente),1,fd); 
+  } 
+  cin.ignore();
+  cout<<"\n\rnro NIT: "; 
+  cin>>cliente.NIT; 
+  cout<<"\n\rNombre   : "; 
+  cin>>cliente.Nombre; 
+  cout<<"\n\rDomicilio     : "; 
+  cin>>cliente.Domicilio; 
+
+  cliente.ID_PK=no_prod; 
+  fwrite(&cliente,sizeof(cliente),1,fd); // Grabar el Registro  
+  fclose(fd); // Cierra el archivo 
+  cout << "\n\n\n\rProducto registrado !!!"; 
+  cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+  getch(); 
+  return; 
+} 
+
+int menu_struct()
+{ int op;
+	do{
+			         cout<<"\n"<<endl;
+		             cout<<"(1) Adicionar-Insertar"<<endl;
+		             cout<<"(2) Listado"<<endl;
+		             cout<<"(3) Modificacion"<<endl;
+		             cout<<"(4) Consulta"<<endl;
+		             cout<<"(5) Borrado"<<endl;
+		             cout<<"(0) Salir"<<endl;
+		             cout<<endl;
+
+						 cout << "Seleccione Opcion : ";
+						 cin>>op;
+					 }while(op<0 || op>5);
+	return op;
+}
