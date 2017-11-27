@@ -11,13 +11,14 @@ using namespace std;
 
 FILE *fd;
 FILE *fd1;
+FILE *fd2;
 
 struct t_persona{ 
 	int ID_PK;
 	int CI;
-	string Fechadenac;
-	string Genero;
-	string direccion;
+	char Fechadenac[10];
+	char Genero[10];
+	char direccion[50];
 }persona;
 
 struct t_cliente{ 
@@ -30,7 +31,7 @@ struct t_cliente{
 struct t_factura{ 
 	int ID_PK;
 	int Nro_PK;
-	string Fecha;
+	char Fecha[10];
 }factura;
 
 struct t_detalle_factura{ 
@@ -73,6 +74,11 @@ void listarRegistropersona();
 void modificarRegistropersona();
 void consultarRegistropersona();
 void eliminarRegistropersona();
+void adicionarRegistrofactura();
+void listarRegistrofactura();
+void modificarRegistrofactura();
+void consultarRegistrofactura();
+void eliminarRegistrofactura();
 
 int main()
 {
@@ -232,31 +238,31 @@ int main()
 					 system("cls");
 					 switch(op2)
 					 {
-					 case 1 : //adicionarRegistrofactura();
+					 case 1 : adicionarRegistrofactura();
 						      system("cls");
 						      break;
 
 					 case 2 : 
 
-							  //listarRegistrofactura();
+							  listarRegistrofactura();
 						      system("cls");
 						      break;
 
 					 case 3 :        
 							
-							  //modificarRegistrofactura();
+							  modificarRegistrofactura();
 						      system("cls");
 							  break;
 
 					 case 4 : 
 
-							  //consultarRegistrofactura();
+							  consultarRegistrofactura();
 						      system("cls");
 						      break;
 
 					 case 5 : 
 
-							  //eliminarRegistrofactura();
+							  eliminarRegistrofactura();
 						      system("cls");
 							  break;
 					 }
@@ -654,7 +660,7 @@ void adicionarRegistropersona()
   cout << "\n\rALTAS DE REGISTROS DE PERSONAS"; 
   fd1=fopen("PERSONA.SEC","rb+"); // Intenta abrir el archivo  
                                      // en modo de lectura/escritura 
-  if(fd==NULL) 
+  if(fd1==NULL) 
     fd1=fopen("PERSONA.SEC","wb"); // Crea el archivo en caso de no 
                                       // existir 
   cout << "\n\n\n\rNumero de producto: "; 
@@ -678,11 +684,11 @@ void adicionarRegistropersona()
   cin>>persona.CI; 
   cout<<"\n\rFecha de nacimiento   : ";
   cin.ignore();
-  getline(cin,persona.Fechadenac); 
+  cin>>persona.Fechadenac; 
   cout<<"\n\rGenero     : "; 
-  getline(cin,persona.Genero); 
+  cin>>persona.Genero; 
   cout<<"\n\rDireccion     : "; 
-  getline(cin,persona.direccion); 
+  cin>>persona.direccion; 
 
   persona.ID_PK=no_prod; 
   fwrite(&persona,sizeof(persona),1,fd1); // Grabar el Registro  
@@ -711,7 +717,7 @@ void listarRegistropersona()
      // Lee el "Registro", de tamano=sizeof(Registro) del archivo "alias"
   while(!feof(fd1)) // Ciclo mientras no se encuentre el final del archivo 
   { 
-	  if(persona.CI!=0 || persona.Fechadenac!="" || persona.Genero!="" || persona.direccion!="")
+	  if(persona.CI!=0 && persona.Fechadenac!="" && persona.Genero!="" && persona.direccion!="")
 	{
      cout<<persona.ID_PK<<"\t""\t"<<persona.CI<<"\t""\t"<<persona.Fechadenac<<"\t""\t"<<persona.Genero<<"\t""\t"<<persona.direccion<<endl; 
 	}
@@ -755,11 +761,11 @@ void modificarRegistropersona()
 	  cin >> persona.CI; 
       cout << "\n\rFecha de nacimiento   : "; 
 	  cin.ignore();
-	  getline(cin,persona.Fechadenac); 
+	  cin>>persona.Fechadenac; 
       cout << "\n\rGenero     : "; 
-	  getline(cin,persona.Genero); 
+	  cin>>persona.Genero; 
       cout << "\n\rDireccion    : "; 
-	  getline(cin,persona.direccion); 
+	  cin>>persona.direccion; 
 
       // Es necesario reposicionar el apuntador del archivo al principio del 
       // registro que desea modificar, ya que al leer un registro, el 
@@ -850,13 +856,26 @@ void eliminarRegistropersona()
     if(persona.ID_PK==no_prod) 
     { 
       cout << "\n\rID_PK                    CI  Fecha de nacimiento         Genero       Direccion  "; 
-      cout << "\n\r------------------------------------------------------------------------";
-      cout<<"\n\r"<<"   "<<persona.ID_PK<<"\t"<<persona.CI<<"\t"<<persona.Fechadenac<<"\t\t"<<persona.direccion;
+      cout << "\n\r---------------------------------------------------------------------------------------------------------------------";
+      cout<<"\n\r"<<"   "<<persona.ID_PK<<"\t"<<persona.CI<<"\t"<<persona.Fechadenac<<"\t\t"<<persona.Genero<<"\t\t"<<persona.direccion;
       persona.ID_PK=0; 
       persona.CI=0; 
-      persona.Fechadenac=""; 
-      persona.Genero="";
-	  persona.direccion=""; 
+	  string x=persona.Fechadenac;
+	  for(int i=0;i<x.length();i++)
+	     {
+			 persona.Fechadenac[i]=0;
+	     }
+      string y=persona.Genero;
+	  for(int i=0;i<y.length();i++)
+	     {
+			 persona.Genero[i]=0;
+	     }
+	  string z=persona.direccion;
+	  for(int i=0;i<z.length();i++)
+	     {
+			 persona.direccion[i]=0;
+	     }
+
       do { 
         cout << "\n\n\rEsta seguro que desea borrarlo? [S/N] ---> "; 
         op=toupper(getche()); 
@@ -882,6 +901,239 @@ void eliminarRegistropersona()
   } 
   cout << "\n\rNo se encuentra ese registro !!!"; 
   fclose(fd1); // Cierra el archivo 
+  cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+  _getch(); 
+  return; 
+}
+
+void adicionarRegistrofactura()
+{ 
+	
+  int no_prod;  // Variable local para el numero de producto 
+ 
+  cout << "\n\rALTAS DE REGISTROS DE FACTURAS"; 
+  fd2=fopen("FACTURA.SEC","rb+"); // Intenta abrir el archivo  
+                                     // en modo de lectura/escritura 
+  if(fd2==NULL) 
+    fd2=fopen("FACTURA.SEC","wb"); // Crea el archivo en caso de no 
+                                      // existir 
+  cout << "\n\n\n\rNumero de producto: "; 
+  cin >> no_prod; 
+  fread(&factura,sizeof(factura),1,fd2); 
+  // Lee el "Registro", de tamano=sizeof(Registro) del archivo "alias" 
+  while(!feof(fd2)) // Ciclo mientras no se encuentre el final del 
+                      // archivo 
+  { 
+    if(factura.ID_PK==no_prod) 
+    { 
+       cout << "\n\n\n\rRegistro duplicado !!!"; 
+       fclose(fd2); 
+       _getch(); 
+       return; 
+    } 
+    fread(&factura,sizeof(factura),1,fd2); 
+  } 
+
+  cout<<"\n\rNro P_K: "; 
+  cin>>factura.Nro_PK; 
+  cout<<"\n\rFecha   : ";
+  cin>>factura.Fecha; 
+
+  factura.ID_PK=no_prod; 
+  fwrite(&factura,sizeof(factura),1,fd2); // Grabar el Registro  
+  fclose(fd2); // Cierra el archivo 
+  cout << "\n\n\n\rProducto registrado !!!"; 
+  cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+  _getch(); 
+  return; 
+}
+
+void listarRegistrofactura()
+{ 
+  cout << "\n\rLISTADO DE REGISTROS DE FACTURAS"; 
+  fd2=fopen("FACTURA.SEC","rb"); // Intenta abrir el archivo PRODUCTO.SEC
+                             // en modo de solo lectura 
+  if(fd2==NULL) 
+  { 
+    cout << "\n\n\n\rNo existe el archivo !!!"; 
+    cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+    _getch(); 
+    return; 
+  } 
+  cout<< "\n\rID_PK            Nro_PK      Fecha       "<<endl; 
+  cout << "\n\r-------------------------------------------"<<endl; 
+  fread(&factura,sizeof(factura),1,fd2); 
+     // Lee el "Registro", de tamano=sizeof(Registro) del archivo "alias"
+  while(!feof(fd2)) // Ciclo mientras no se encuentre el final del archivo 
+  { 
+	  if(factura.ID_PK!=0 && factura.Nro_PK!=0 && factura.Fecha!="")
+	{
+     cout<<factura.ID_PK<<"\t""\t"<<factura.Nro_PK<<"\t""\t"<<factura.Fecha<<endl; 
+	}
+	 fread(&factura,sizeof(factura),1,fd2); 
+  } 
+  fclose(fd2); // Cierra el archivo 
+  cout << "\n\r-----------------------------------------------------------------------------"; 
+  cout << "\n\rFin del listado !!!"; 
+  cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+  _getch(); 
+  return; 
+}
+
+void modificarRegistrofactura()
+{ 
+  int no_prod; // Variable local para el numero de producto que desea modificar //
+  cout << "\n\rMODIFICACION DE REGISTROS DE FACTURAS"; 
+  fd2=fopen("FACTURA.SEC","rb+"); // Intenta abrir el archivo PRODUCTO.SEC 
+                             // en modo de lectura/escritura 
+  if(fd2==NULL)  // Valida la existencia del archivo 
+  { 
+    cout << "\n\n\n\rNo existe el archivo !!!"; 
+    cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+    _getch(); 
+    return; 
+  } 
+  cout << "\n\n\n\rNumero de ID: "; 
+  cin >> no_prod; 
+  fread(&factura,sizeof(factura),1,fd2); 
+     // Lee el "Registro", de tamano=sizeof(Registro) del archivo "alias"
+  while(!feof(fd2)) // Ciclo mientras no se encuentre el final del archivo 
+  { 
+    if(factura.ID_PK==no_prod) 
+    { 
+      cout<< "\n\rID_PK            Nro_PK      Fecha       "<<endl; 
+      cout << "\n\r--------------------------------------------------------------------------"<<endl; 
+      cout<<"\n\r"<<"   "<<factura.ID_PK<<"\t"<<factura.Nro_PK<<"\t"<<factura.Fecha;
+	  cout << "\n\r--------------------------------------------------------------------------"; 
+      cout << "\n\n\n\rAnote los nuevos datos ..."; 
+      cout << "\n\rNro_PK: "; 
+	  cin >> factura.Nro_PK; 
+      cout << "\n\rFecha   : "; 
+	  cin>>factura.Fecha; 
+
+      // Es necesario reposicionar el apuntador del archivo al principio del 
+      // registro que desea modificar, ya que al leer un registro, el 
+      // apuntador se posiciona en el registro siguiente 
+      // La funcion ftell(alias) devuelve la posicion donde se encuentra el 
+      // apuntador 
+      fseek(fd2,ftell(fd2)-sizeof(factura),SEEK_SET); 
+      fwrite(&factura,sizeof(factura),1,fd2);  // Graba el registro con 
+                                       // los nuevos campos 
+      fclose(fd2);   // Cierra el archivo 
+      cout << "\n\n\n\rRegistro modificado !!!"; 
+      cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+      _getch();
+      return; 
+    } 
+    fread(&factura,sizeof(factura),1,fd2); 
+  } 
+  cout << "\n\rNo se encuentra ese registro !!!"; 
+  fclose(fd2); // Cierra el archivo 
+  cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+  _getch(); 
+  return; 
+}
+
+void consultarRegistrofactura()
+{ 
+  int no_prod; // Variable local para el numero de producto que desea modificar //
+  cout << "\n\rCONSULTA DE REGISTROS DE FACTURAS";
+  fd2=fopen("FACTURAS.SEC","rb"); // Intenta abrir el archivo PRODUCTO.SEC 
+                           
+  if(fd2==NULL)  // Valida la existencia del archivo 
+  { 
+    cout << "\n\n\n\rNo existe el archivo !!!"; 
+    cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+    _getch(); 
+    return; 
+  } 
+  cout << "\n\n\n\rNumero de cliente: "; 
+  cin >> no_prod; 
+  fread(&factura,sizeof(factura),1,fd2); 
+     // Lee el "Registro", de tamano=sizeof(Registro) del archivo "alias"
+  while(!feof(fd2)) // Ciclo mientras no se encuentre el final del archivo 
+  { 
+    if(factura.ID_PK==no_prod) 
+    { 
+      cout<< "\n\rID_PK            Nro_PK      Fecha       "<<endl; 
+      cout << "\n\r--------------------------------------------------------------------------"<<endl; 
+      cout<<"\n\r"<<"   "<<factura.ID_PK<<"\t"<<factura.Nro_PK<<"\t"<<factura.Fecha;
+	  cout << "\n\r--------------------------------------------------------------------------";
+
+      fseek(fd2,ftell(fd2)-sizeof(factura),SEEK_SET); 
+      fwrite(&factura,sizeof(factura),1,fd2);  // Graba el registro con 
+                                       // los nuevos campos 
+      fclose(fd2);   // Cierra el archivo 
+      cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+      _getch();
+      return; 
+    } 
+    fread(&factura,sizeof(factura),1,fd2); 
+  } 
+  cout << "\n\rNo se encuentra ese registro !!!"; 
+  fclose(fd2); // Cierra el archivo 
+  cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+  _getch(); 
+  return; 
+}
+
+void eliminarRegistrofactura()
+{
+  int no_prod; // Variable local para el numero de producto que desea eliminar 
+  char op; //Variable local 
+  cout << "\n\rBAJAS LOGICAS DE REGISTROS DE FACTURAS"; 
+  fd2=fopen("FACTURA.SEC","rb+"); // Intenta abrir el archivo PRODUCTO.SEC 
+                             // en modo de lectura/escritura 
+  if(fd2==NULL)  // Valida la existencia del archivo 
+  { 
+    cout << "\n\n\n\rNo existe el archivo !!!"; 
+    cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+    _getch(); 
+    return; 
+  } 
+  cout << "\n\n\n\rPrimary Key: "; 
+  cin >> no_prod; 
+  fread(&factura,sizeof(factura),1,fd2); 
+     // Lee el "Registro", de tamano=sizeof(Registro) del archivo "alias"
+  while(!feof(fd2)) // Ciclo mientras no se encuentre el final del archivo 
+  { 
+    if(factura.ID_PK==no_prod) 
+    { 
+      cout<< "\n\rID_PK            Nro_PK      Fecha       "<<endl; 
+      cout << "\n\r--------------------------------------------------------------------------"<<endl; 
+      cout<<"\n\r"<<"   "<<factura.ID_PK<<"\t"<<factura.Nro_PK<<"\t"<<factura.Fecha;
+      factura.ID_PK=0; 
+      factura.Nro_PK=0;
+	  string x=factura.Fecha;
+	  for(int i=0;i<x.length();i++)
+	     {
+			 factura.Fecha[i]=0;
+	     }
+      do { 
+        cout << "\n\n\rEsta seguro que desea borrarlo? [S/N] ---> "; 
+        op=toupper(getche()); 
+      }while(op!='S' && op!='N'); 
+      if(op=='S') 
+		        { 
+       // Es necesario reposicionar el apuntador del archivo al principio del 
+       // registro que desea modificar, ya que al leer un registro, el 
+       // apuntador se posiciona en el registro siguiente 
+       // La funcion ftell(alias) devuelve la posicion donde se encuentra el 
+       // apuntador 
+            fseek(fd2,ftell(fd2)-sizeof(factura),SEEK_SET);      
+       fwrite(&factura,sizeof(factura),1,fd2);  // Graba el registro con 
+                                       // los nuevos campos 
+       cout << "\n\n\n\rRegistro eliminado !!!"; 
+      } 
+      fclose(fd2);   // Cierra el archivo 
+      cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
+      _getch(); 
+      return; 
+    } 
+    fread(&factura,sizeof(factura),1,fd2); 
+  } 
+  cout << "\n\rNo se encuentra ese registro !!!"; 
+  fclose(fd2); // Cierra el archivo 
   cout << "\n\r<<< Oprima cualquier tecla para continuar >>>"; 
   _getch(); 
   return; 
