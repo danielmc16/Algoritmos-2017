@@ -146,7 +146,7 @@ int main()
 		                 do{  
 			             cout<<"\n Seleccione Opcion : ";
 			             cin>>op3;
-		                 }while(op3<0 || op3>3);
+		                 }while(op3<0 || op3>4);
 
 					      switch(op3)
 					            {
@@ -1464,7 +1464,7 @@ void lista_cont()
 	cout<< "\n\rID				Clave		"<<endl;
 	cout<< "\n\r------------------------------"<<endl;
 	fread(&contra,sizeof(contra),1,alias1);
-		while(!feof(alias))
+		while(!feof(alias1))
 		{
 			cout<<contra.id_usuario<<"\t""\t"<<contra.clave<<endl;
 			fread(&contra,sizeof(contra),1,alias1);
@@ -1753,3 +1753,4 @@ do{
 	}while(op!=0);
 
 }
+
